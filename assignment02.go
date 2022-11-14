@@ -1,4 +1,4 @@
-package main
+package assignment02
 
 import (
 	"crypto/sha256"
@@ -144,52 +144,4 @@ func NewTransaction(sender string, receiver string, amount int) Transaction {
 	
 }
 
-
-func main() {
-	// Create blockchain
-	var blockchain Blockchain
-
-	// Create BlockData
-	var blockData []Transaction
-
-	// Create transactions # 1
-	transaction := NewTransaction("Satoshi", "Vitalik", 10)
-	// Add transaction to Block
-	blockData = append(blockData, transaction)
-
-	// Create transactions # 1
-	transaction = NewTransaction("Satoshi", "Cardano", 23)
-	// Add transaction to Block
-	blockData = append(blockData, transaction)
-
-	// Add block to blockchain
-	blockchain.ChainHead = NewBlock(blockData, nil)
-
-	// Create transactions # 3
-	transaction =NewTransaction("Alice", "Bob", 87)
-	// Add transaction to Block
-	blockData = append(blockData, transaction)
-
-	// Create transactions # 4
-	transaction = NewTransaction("Bob", "Alice", 10)
-	// Add transaction to Block
-	blockData = append(blockData, transaction)
-
-	// Add second block to blockchain
-	blockchain.ChainHead =NewBlock(blockData, blockchain.ChainHead)
-
-	
-	// Display blockchain
-	ListBlocks(blockchain.ChainHead)
-
-	// Verify cheating
-	for blockchain.ChainHead != nil {
-		if blockchain.ChainHead.CurrentHash != CalculateHash(blockchain.ChainHead.BlockData, blockchain.ChainHead.Nonce) {
-			fmt.Println("Verification failed!")
-			return
-		}
-		blockchain.ChainHead = blockchain.ChainHead.PrevPointer
-	}
-	fmt.Println("Verification passed!")
-}
 
